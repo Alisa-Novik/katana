@@ -14,4 +14,9 @@ public record HttpDto(
             httpRequest.uri().toString()
         );
     }
+
+    @Override
+    public final String toString() {
+        return String.format("%s %s HTTP/1.1", method, uri);
+    }
 }

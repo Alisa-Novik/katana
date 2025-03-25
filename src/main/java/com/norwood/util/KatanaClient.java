@@ -6,7 +6,6 @@ import java.net.Socket;
 import java.net.URI;
 import java.net.http.HttpRequest;
 
-import com.norwood.common.HttpDto;
 import com.norwood.networking.KatanaServer;
 
 public class KatanaClient
@@ -25,8 +24,7 @@ public class KatanaClient
 
     public void sendRequest() {
         try (PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
-            HttpDto dto = HttpDto.from(createRequest());
-            out.println(dto);
+            out.println(HttpRequestSerializer.serialize(createRequest()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -34,7 +32,7 @@ public class KatanaClient
 
     public HttpRequest createRequest() {
         return HttpRequest.newBuilder()
-            .uri(URI.create("https://localhost:8082"))
+            .uri(URI.create("https://localhost:8082/test/get"))
             .GET()
             .build();
     }
