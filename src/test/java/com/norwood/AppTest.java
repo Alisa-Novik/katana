@@ -1,6 +1,7 @@
-package com;
+package com.norwood;
 
-import com.util.KatanaClient;
+
+import com.norwood.util.KatanaClient;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

@@ -1,4 +1,4 @@
-package com.util;
+package com.norwood.util;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -6,7 +6,8 @@ import java.net.Socket;
 import java.net.URI;
 import java.net.http.HttpRequest;
 
-import com.networking.KatanaServer;
+import com.norwood.common.HttpDto;
+import com.norwood.networking.KatanaServer;
 
 public class KatanaClient
 {
@@ -24,7 +25,8 @@ public class KatanaClient
 
     public void sendRequest() {
         try (PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
-            out.println("test 123");
+            HttpDto dto = HttpDto.from(createRequest());
+            out.println(dto);
         } catch (IOException e) {
             e.printStackTrace();
         }

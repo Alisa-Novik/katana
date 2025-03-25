@@ -1,4 +1,4 @@
-package com.networking;
+package com.norwood.networking;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

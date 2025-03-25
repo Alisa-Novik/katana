@@ -1,7 +1,7 @@
-package com.core;
+package com.norwood.core;
 
-import com.networking.KatanaServer;
-import com.util.KatanaClient;
+import com.norwood.networking.KatanaServer;
+import com.norwood.util.KatanaClient;
 
 public class KatanaCore
 {

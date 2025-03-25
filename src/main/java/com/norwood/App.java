@@ -1,6 +1,6 @@
-package com;
+package com.norwood;
 
-import com.core.KatanaCore;
+import com.norwood.core.KatanaCore;
 
 public class App 
 {
@@ -8,6 +8,5 @@ public class App
     {
         KatanaCore core = new KatanaCore();
         core.boot();
-
     }
 }
