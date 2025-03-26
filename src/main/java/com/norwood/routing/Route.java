@@ -1,7 +1,6 @@
 package com.norwood.routing;
 
 import java.net.http.HttpRequest;
-import java.nio.file.Path;
 import java.util.Locale;
 import java.util.function.Consumer;
 

@@ -19,6 +19,6 @@ public class UserRouter {
     }
 
     void handler2(HttpRequest request) {
-        System.out.println("/test2 executed :" + request.method());
+        System.out.println("/test1 executed :" + request.method());
     }
 }

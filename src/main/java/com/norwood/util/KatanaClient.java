@@ -43,21 +43,4 @@ public class KatanaClient
             .GET()
             .build();
     }
-    //
-    // public void run() {
-    //     new Thread(() -> {
-    //         try (
-    //             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-    //         ) {
-    //             this.out = out;
-    //
-    //             while (running) {
-    //                 handleCommand(commands.take());
-    //             }
-    //         } catch (Exception e) {
-    //             System.err.println("Sending Error: " + e.getMessage());
-    //             System.exit(1);
-    //         } 
-    //     }).start();
-    // }
 }

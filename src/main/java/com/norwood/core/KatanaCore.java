@@ -12,7 +12,5 @@ public class KatanaCore
 
         KatanaClient katanaClient = new KatanaClient();
         katanaClient.sendRequest();
-
-        // server.acceptRequest(());
     }
 }
