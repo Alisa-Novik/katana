@@ -6,12 +6,17 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.http.HttpRequest;
 
+import com.norwood.routing.Router;
+import com.norwood.userland.UserRouter;
+import com.norwood.util.KatanaClient;
+
 public class KatanaServer
 {
     public static final int SERVER_PORT = 8082;
     private static KatanaServer instance;
     private static boolean running = true;
     private ServerSocket socket;
+    private Router router = new Router();
 
     private KatanaServer () {
         try {
@@ -40,7 +45,8 @@ public class KatanaServer
         ) {
             String message;
             while ((message = reader.readLine()) != null) {
-                System.out.println("Got from client: " + message);
+                HttpRequest req = KatanaClient.request();
+                (new UserRouter()).defineRoutes(req);
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());

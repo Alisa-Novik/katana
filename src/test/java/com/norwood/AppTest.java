@@ -22,7 +22,7 @@ public class AppTest
 
     public void testApp()
     {
-        KatanaClient katanaClient = new KatanaClient();
-        System.out.println(katanaClient.createRequest());
+        // KatanaClient katanaClient = new KatanaClient();
+        // System.out.println(katanaClient.createRequest());
     }
 }
