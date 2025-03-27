@@ -10,7 +10,8 @@ public class UserRouter {
     public void defineRoutes() {
         Router.defineRoutes(
             Route.get("/test1", this::handler1),
-            Route.get("/test2", this::handler2)
+            Route.get("/test2", this::handler2),
+            Route.get("/test3", this::handler3)
         );
     }
 
@@ -19,6 +20,10 @@ public class UserRouter {
     }
 
     void handler2(HttpRequest request) {
-        System.out.println("/test1 executed :" + request.method());
+        System.out.println("/test2 executed :" + request.method());
+    }
+
+    void handler3(HttpRequest request) {
+        System.out.println("/test3 executed :" + request.method());
     }
 }
