@@ -7,6 +7,7 @@ public class App
     public static void main(String[] args)
     {
         KatanaCore core = new KatanaCore();
+
         core.boot();
     }
 }
