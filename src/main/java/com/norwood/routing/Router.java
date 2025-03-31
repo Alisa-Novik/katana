@@ -12,6 +12,7 @@ public class Router
 
     public static void defineRoutes(Route... routes) {
         for (Route route : routes) {
+
         }
     }
 }
