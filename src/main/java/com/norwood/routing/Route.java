@@ -11,7 +11,8 @@ public class Route
         POST,
         PUT,
         DELETE,
-        PATCH;
+        PATCH
+        ;
 
         public static HttpMethod fromString(String method) {
             if (method == null) {
