@@ -1,6 +1,7 @@
 package com.norwood;
 
 import com.norwood.core.KatanaCore;
+import com.norwood.util.KatanaClient;
 
 public class App 
 {
@@ -8,5 +9,8 @@ public class App
     {
         KatanaCore core = new KatanaCore();
         core.boot();
+
+        KatanaClient katanaClient = new KatanaClient();
+        katanaClient.sendRequest();
     }
 }

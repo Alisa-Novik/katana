@@ -12,7 +12,7 @@ public class Route
         PUT,
         DELETE,
         PATCH
-        ;
+    ;
 
         public static HttpMethod fromString(String method) {
             if (method == null) {

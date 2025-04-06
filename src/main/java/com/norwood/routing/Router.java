@@ -1,7 +1,14 @@
 package com.norwood.routing;
 
-public class Router
+import java.util.ArrayList;
+import java.util.List;
+
+import com.norwood.core.KatanaBean;
+
+public class Router implements KatanaBean
 {
+    final List<Route> routes = new ArrayList<>();
+
     public void route(String message) {
         String[] httpRequest = message.split(" ");
         String method = httpRequest[0];
@@ -10,9 +17,13 @@ public class Router
         System.out.println("Method: " + method + " Path: " + path);
     }
 
-    public static void defineRoutes(Route... routes) {
-        for (Route route : routes) {
+    public void defineDefaultRoutes() {
+        routes.addAll(List.of(
+            Route.get("/hello", s -> System.out.println("Henlo, " + s))
+        ));
+    }
 
-        }
+    public void defineRoutes(List<Route> routes) {
+        routes.addAll(routes);
     }
 }

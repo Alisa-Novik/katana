@@ -29,7 +29,6 @@ public class KatanaServer
 
     public void bootServer() {
         System.out.println("Started server. Listening to " + SERVER_PORT);
-
         while (running) {
             try {
                 Socket clientSocket = socket.accept(); 
@@ -46,7 +45,7 @@ public class KatanaServer
         ) {
             String message;
             while ((message = reader.readLine()) != null) {
-                HttpRequest req = KatanaClient.request();
+                // HttpRequest req = KatanaClient.request();
                 (new UserRouter()).defineRoutes();
             }
         } catch (Exception e) {
