@@ -2,7 +2,6 @@ package com.norwood.userland;
 
 import java.net.http.HttpRequest;
 import java.util.List;
-import java.util.function.Consumer;
 
 import com.norwood.core.KatanaCore;
 import com.norwood.routing.Route;
@@ -10,8 +9,7 @@ import com.norwood.routing.Router;
 
 public class UserRouter {
     public void defineRoutes() {
-        Router router = getRouter();
-        router.defineRoutes(
+        getRouter().defineRoutes(
             List.of(
                 Route.get("/test1", this::handler1),
                 Route.get("/test2", this::handler2)

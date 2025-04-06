@@ -7,8 +7,9 @@ public class KatanaContainer implements Container {
     private Map<Class<?>, KatanaBean> beans = new HashMap<>();
 
     @Override
-    public <T extends KatanaBean> KatanaBean get(Class<T> beanClass) {
-        return (KatanaBean) beans.get(beanClass);
+    @SuppressWarnings("unchecked")
+    public <T extends KatanaBean> T get(Class<T> beanClass) {
+        return (T) beans.get(beanClass);
     }
 
     @Override

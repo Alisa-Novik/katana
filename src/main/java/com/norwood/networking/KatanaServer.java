@@ -6,9 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.http.HttpRequest;
 
-import com.norwood.routing.Router;
 import com.norwood.userland.UserRouter;
-import com.norwood.util.KatanaClient;
 
 public class KatanaServer
 {
@@ -16,7 +14,6 @@ public class KatanaServer
     private static KatanaServer instance;
     private static boolean running = true;
     private ServerSocket socket;
-    private Router router = new Router();
 
     private KatanaServer () {
         try {
@@ -51,6 +48,7 @@ public class KatanaServer
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
+            // nothing
         }
         System.out.println("Handled client:" + clientSocket.getInetAddress().toString());
     }
