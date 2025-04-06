@@ -29,6 +29,7 @@ public class KatanaServer
 
     public void bootServer() {
         System.out.println("Started server. Listening to " + SERVER_PORT);
+
         while (running) {
             try {
                 Socket clientSocket = socket.accept(); 

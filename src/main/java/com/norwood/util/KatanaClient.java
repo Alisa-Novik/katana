@@ -30,13 +30,6 @@ public class KatanaClient
         }
     }
 
-    public static HttpRequest request() {
-        return HttpRequest.newBuilder()
-            .uri(URI.create("https://localhost:8082/test/get"))
-            .GET()
-            .build();
-    }
-
     public HttpRequest createRequest() {
         return HttpRequest.newBuilder()
             .uri(URI.create("https://localhost:8082/test/get"))
