@@ -4,9 +4,11 @@ import java.net.http.HttpRequest;
 import java.util.List;
 
 import com.norwood.core.KatanaCore;
+import com.norwood.core.Singleton;
 import com.norwood.routing.Route;
 import com.norwood.routing.Router;
 
+@Singleton
 public class UserRouter {
     public void defineRoutes() {
         getRouter().defineRoutes(

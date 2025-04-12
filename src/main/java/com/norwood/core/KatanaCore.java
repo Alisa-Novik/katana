@@ -1,5 +1,7 @@
 package com.norwood.core;
 
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +12,7 @@ import com.norwood.userland.BeanRegistry;
 public class KatanaCore
 {
     private static final Container container = new KatanaContainer();
-    public static final Set<Object> beanRegistry = new HashSet<>();
+    public static final Set<Class<?>> beanRegistry = new HashSet<>();
 
     public void boot() {
         System.out.println("Booting Katana");
@@ -38,7 +40,14 @@ public class KatanaCore
     }
 
     private void processAutowiring() {
-        beanRegistry.forEach(System.out::println);
+        for (Class<?> userClass : beanRegistry) {
+
+            System.out.println(String.format("Class %s annotations", userClass.toString()));
+
+            for (Annotation annotation : userClass.getAnnotations()) {
+                System.out.println("Annotation: " + annotation);
+            }
+        }
     }
 
     public static Container getContainer() {
