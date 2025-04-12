@@ -14,8 +14,7 @@ import com.norwood.routing.Router;
 import com.norwood.routing.annotation.Get;
 import com.norwood.userland.BeanRegistry;
 
-public class KatanaCore
-{
+public class KatanaCore {
     private static final Container container = new KatanaContainer();
     public static final Set<Class<?>> beanRegistry = new HashSet<>();
     private Router router;
@@ -33,7 +32,7 @@ public class KatanaCore
 
         BeanRegistry.init();
         processAutowiring();
-        }
+    }
 
     private void registerMainBeans() throws ContainerException {
         Container container = getContainer();
@@ -41,22 +40,24 @@ public class KatanaCore
         router = new Router();
         router.defineDefaultRoutes();
         container.set(Router.class, router);
-
-        processAutowiring();
     }
 
     private void processAutowiring() {
         System.out.println("Processing routes...");
 
         for (Class<?> userClass : beanRegistry) {
+
+            System.out.println("Processing class: " + userClass);
             for (Method method : userClass.getMethods()) {
                 for (Annotation an : method.getAnnotations()) {
                     if (an instanceof Get a) {
-                        System.out.println("path: " + a.path());
+                        String path = a.path();
+                        if (router.hasRouteWithPath(path)) {
+                            throw new RuntimeException("Route already define with path: " + path);
+                        }
 
                         router.defineRoutes(List.of(
-                            Route.get(a.path(), (instance -> invokeMethod(method, instance)))
-                        ));
+                                Route.get(path, (instance -> invokeMethod(method, instance)))));
                     }
                 }
             }

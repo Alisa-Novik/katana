@@ -28,17 +28,17 @@ public class Route
     }
 
     private final HttpMethod method;
-    private final String name;
+    private final String path;
     private final Object handler;
 
     private Route(HttpMethod method, String name, Object handler) {
         this.method = method;
-        this.name = name;
+        this.path = name;
         this.handler = handler;
     }
 
-    public static Route create(HttpMethod method, String name, Object handler) {
-        return new Route(method, name, handler);
+    public static Route create(HttpMethod method, String path, Object handler) {
+        return new Route(method, path, handler);
     }
 
     public static Route get(String name, Consumer<HttpRequest> handler) {
@@ -47,6 +47,10 @@ public class Route
 
     @Override
     public String toString() {
-        return "Route name '" + method.toString() + " " + name + "'";
+        return "Route name '" + method.toString() + " " + path + "'";
+    }
+
+    public String path() {
+        return path;
     }
 }

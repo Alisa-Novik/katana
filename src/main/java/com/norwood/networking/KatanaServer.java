@@ -6,8 +6,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.http.HttpRequest;
 
-import com.norwood.userland.UserRouter;
-
 public class KatanaServer
 {
     public static final int SERVER_PORT = 8082;

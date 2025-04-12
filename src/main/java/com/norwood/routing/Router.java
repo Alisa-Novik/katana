@@ -23,7 +23,13 @@ public class Router implements KatanaBean
         ));
     }
 
-    public void defineRoutes(List<Route> routes) {
-        routes.addAll(routes);
+    public void defineRoutes(List<Route> other) {
+        routes.addAll(other);
+    }
+
+    public boolean hasRouteWithPath(String path) {
+        return routes.stream().anyMatch(
+            r -> r.path().equals(path)
+        );
     }
 }
