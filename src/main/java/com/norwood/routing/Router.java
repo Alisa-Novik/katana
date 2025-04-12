@@ -1,5 +1,6 @@
 package com.norwood.routing;
 
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,12 +10,10 @@ public class Router implements KatanaBean
 {
     final List<Route> routes = new ArrayList<>();
 
-    public void route(String message) {
-        String[] httpRequest = message.split(" ");
-        String method = httpRequest[0];
-        String path = httpRequest[1];
-
-        System.out.println("Method: " + method + " Path: " + path);
+    public void route(HttpRequest request) {
+        routes.stream().filter(
+            (r -> request.uri().getRawPath().equals(r.path()))
+        ).;
     }
 
     public void defineDefaultRoutes() {

@@ -21,7 +21,7 @@ public class KatanaCore {
 
     public void boot() {
         System.out.println("Booting Katana");
-        (new Thread(() -> KatanaServer.getInstance())).start();
+        (new Thread(() -> KatanaServer.withCore(this))).start();
         System.out.println("Katana booted. Awaiting connections form clients...");
 
         try {
@@ -75,5 +75,10 @@ public class KatanaCore {
 
     public static Container getContainer() {
         return container;
+    }
+
+    public void handleRequest(HttpRequest req) {
+        router.route(req);
+        System.out.println("Request successfully processed by core.");
     }
 }
