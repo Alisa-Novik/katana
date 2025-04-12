@@ -43,7 +43,6 @@ public class KatanaServer
             String message;
             while ((message = reader.readLine()) != null) {
                 // HttpRequest req = KatanaClient.request();
-                (new UserRouter()).defineRoutes();
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());

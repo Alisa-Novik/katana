@@ -1,18 +1,24 @@
 package com.norwood.core;
 
 import java.lang.annotation.Annotation;
-import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.http.HttpRequest;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.norwood.networking.KatanaServer;
+import com.norwood.routing.Route;
 import com.norwood.routing.Router;
+import com.norwood.routing.annotation.Get;
 import com.norwood.userland.BeanRegistry;
 
 public class KatanaCore
 {
     private static final Container container = new KatanaContainer();
     public static final Set<Class<?>> beanRegistry = new HashSet<>();
+    private Router router;
 
     public void boot() {
         System.out.println("Booting Katana");
@@ -32,7 +38,7 @@ public class KatanaCore
     private void registerMainBeans() throws ContainerException {
         Container container = getContainer();
 
-        Router router = new Router();
+        router = new Router();
         router.defineDefaultRoutes();
         container.set(Router.class, router);
 
@@ -40,13 +46,29 @@ public class KatanaCore
     }
 
     private void processAutowiring() {
+        System.out.println("Processing routes...");
+
         for (Class<?> userClass : beanRegistry) {
+            for (Method method : userClass.getMethods()) {
+                for (Annotation an : method.getAnnotations()) {
+                    if (an instanceof Get a) {
+                        System.out.println("path: " + a.path());
 
-            System.out.println(String.format("Class %s annotations", userClass.toString()));
-
-            for (Annotation annotation : userClass.getAnnotations()) {
-                System.out.println("Annotation: " + annotation);
+                        router.defineRoutes(List.of(
+                            Route.get(a.path(), (instance -> invokeMethod(method, instance)))
+                        ));
+                    }
+                }
             }
+        }
+    }
+
+    private void invokeMethod(Method method, HttpRequest instance) {
+        try {
+            method.invoke(instance);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            System.out.println("Error invoking stuff...");
+            e.printStackTrace();
         }
     }
 
