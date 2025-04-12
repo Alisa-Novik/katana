@@ -23,7 +23,7 @@ public class BeanRegistry {
         }
 
         for (Class<?> userClass : beans()) {
-            KatanaCore.beanRegistry.add(userClass);
+            KatanaCore.beanRegistryDefinitions.add(userClass);
         }
 
         init = true;

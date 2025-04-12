@@ -11,6 +11,7 @@ public class App
         core.boot();
 
         KatanaClient katanaClient = new KatanaClient();
-        katanaClient.sendRequest();
+        katanaClient.sendRequest(katanaClient.createRequest("/test2"));
+        // katanaClient.sendRequest(katanaClient.createRequest("/test2"));
     }
 }

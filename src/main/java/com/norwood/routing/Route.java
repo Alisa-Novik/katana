@@ -2,17 +2,15 @@ package com.norwood.routing;
 
 import java.net.http.HttpRequest;
 import java.util.Locale;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
-public class Route
-{
+public class Route {
     public enum HttpMethod {
         GET,
         POST,
         PUT,
         DELETE,
-        PATCH
-    ;
+        PATCH;
 
         public static HttpMethod fromString(String method) {
             if (method == null) {
@@ -41,13 +39,21 @@ public class Route
         return new Route(method, path, handler);
     }
 
-    public static Route get(String name, Consumer<HttpRequest> handler) {
+    public boolean ofPath(String path) {
+        return this.path.equals(path);
+    }
+
+    public static Route get(String name, BiConsumer<Object, HttpRequest> handler) {
         return Route.create(HttpMethod.GET, name, handler);
     }
 
     @Override
     public String toString() {
         return "Route name '" + method.toString() + " " + path + "'";
+    }
+
+    public Object handler() {
+        return handler;
     }
 
     public String path() {

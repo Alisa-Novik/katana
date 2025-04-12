@@ -22,17 +22,17 @@ public class KatanaClient
         }
     }
 
-    public void sendRequest() {
+    public void sendRequest(HttpRequest request) {
         try (PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
-            out.println(HttpRequestSerializer.serialize(createRequest()));
+            out.println(HttpRequestSerializer.serialize(request));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public HttpRequest createRequest() {
+    public HttpRequest createRequest(String path) {
         return HttpRequest.newBuilder()
-            .uri(URI.create("https://localhost:8082/test/get"))
+            .uri(URI.create("https://localhost:8082" + path))
             .GET()
             .build();
     }

@@ -4,19 +4,24 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.http.HttpRequest;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 import com.norwood.networking.KatanaServer;
 import com.norwood.routing.Route;
 import com.norwood.routing.Router;
 import com.norwood.routing.annotation.Get;
 import com.norwood.userland.BeanRegistry;
+import com.norwood.userland.UserRouter;
 
 public class KatanaCore {
     private static final Container container = new KatanaContainer();
-    public static final Set<Class<?>> beanRegistry = new HashSet<>();
+    public static final Set<Class<?>> beanRegistryDefinitions = new HashSet<>();
+    public static final Map<Class<?>, Object> beanRegistry = new HashMap<>();
     private Router router;
 
     public void boot() {
@@ -31,6 +36,7 @@ public class KatanaCore {
         }
 
         BeanRegistry.init();
+        beanRegistry.put(UserRouter.class, new UserRouter());
         processAutowiring();
     }
 
@@ -45,7 +51,7 @@ public class KatanaCore {
     private void processAutowiring() {
         System.out.println("Processing routes...");
 
-        for (Class<?> userClass : beanRegistry) {
+        for (Class<?> userClass : beanRegistryDefinitions) {
 
             System.out.println("Processing class: " + userClass);
             for (Method method : userClass.getMethods()) {
@@ -56,17 +62,20 @@ public class KatanaCore {
                             throw new RuntimeException("Route already define with path: " + path);
                         }
 
+                        BiConsumer<Object, HttpRequest> cons = ((instance, request) -> invokeMethod(method, instance,
+                                request));
+
                         router.defineRoutes(List.of(
-                                Route.get(path, (instance -> invokeMethod(method, instance)))));
+                                Route.get(path, cons)));
                     }
                 }
             }
         }
     }
 
-    private void invokeMethod(Method method, HttpRequest instance) {
+    private void invokeMethod(Method method, Object instance, Object arg1) {
         try {
-            method.invoke(instance);
+            method.invoke(instance, arg1);
         } catch (IllegalAccessException | InvocationTargetException e) {
             System.out.println("Error invoking stuff...");
             e.printStackTrace();
@@ -78,7 +87,7 @@ public class KatanaCore {
     }
 
     public void handleRequest(HttpRequest req) {
+        System.out.println("Processing user request..." + req.uri().getRawPath());
         router.route(req);
-        System.out.println("Request successfully processed by core.");
     }
 }

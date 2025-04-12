@@ -10,11 +10,11 @@ public class UserRouter {
 
     @Get(path = "/test1")
     public void route1(HttpRequest request) {
-        System.out.println("/test1 executed :" + request.method());
+        System.out.println("[UserRouter] /test1 executed :" + request.method());
     }
 
-    @Get(path = "/test1")
+    @Get(path = "/test2")
     public void route2(HttpRequest request) {
-        System.out.println("/test2 executed :" + request.method());
+        System.out.println("[UserRouter] /test2 executed :" + request.method());
     }
 }
