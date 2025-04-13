@@ -5,31 +5,40 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.http.HttpRequest;
 import java.util.List;
-import java.util.Set;
 import java.util.function.BiFunction;
 
 import com.norwood.routing.Route;
+import com.norwood.routing.Router;
 import com.norwood.routing.annotation.Get;
 
 public class AnnotationProcessor {
-    public void processAnnotations(Set<Class<?>> beanRegistryDefinitions) {
-        for (Class<?> userClass : beanRegistryDefinitions) {
+    public void processAnnotations(List<Class<?>> classDefinitions, Router router) {
+        for (Class<?> userClass : classDefinitions) {
             System.out.println("Processing class: " + userClass);
             for (Method method : userClass.getMethods()) {
                 for (Annotation an : method.getAnnotations()) {
-                    if (an instanceof Get a) {
-                        String path = a.path();
-                        if (router.hasRouteWithPath(path)) {
-                            throw new RuntimeException("Route already define with path: " + path);
-                        }
-
-                        router.defineRoutes(List.of(
-                            Route.get(path, createHandler(method))
-                        ));
+                    switch (an) {
+                        case Get a -> route(a, router, method);
+                        default -> noop();
                     }
                 }
             }
         }
+    }
+
+    private void noop() {
+        // nothing
+    }
+
+    private void route(Get a, Router router, Method method) {
+        String path = a.path();
+        if (router.hasRouteWithPath(path)) {
+            throw new RuntimeException("Route already define with path: " + path);
+        }
+
+        router.defineRoutes(List.of(
+            Route.get(path, createHandler(method))
+        ));
     }
 
     private BiFunction<Object, HttpRequest, Object> createHandler(Method method) {

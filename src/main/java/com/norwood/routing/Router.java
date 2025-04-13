@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.norwood.core.BeanRegistry;
-import com.norwood.core.KatanaBean;
 import com.norwood.userland.UserController;
 
-public class Router implements KatanaBean {
+public class Router {
     final List<Route> routes = new ArrayList<>();
 
     public Object route(HttpRequest request) {

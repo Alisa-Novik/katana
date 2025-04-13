@@ -7,7 +7,7 @@ public class KatanaResponse {
         this.value = value;
     }
 
-    public static KatanaResponse some(Object responseValue) {
+    public static KatanaResponse success(Object responseValue) {
         return new KatanaResponse(responseValue);
     }
 

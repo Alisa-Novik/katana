@@ -1,7 +1,10 @@
 package com.norwood.core;
 
+import java.util.List;
+
 public interface Container {
-    public <T extends KatanaBean> T get(Class<T> beanClass);
-    public <T extends KatanaBean> void set(Class<T> beanClass, T bean) throws BeanAlreadyDefinedException;
+    public <T> T get(Class<T> beanClass);
+    public <T> void set(Class<T> beanClass, T bean);
+    public List<Class<?>> classDefinitions();
 }
 
