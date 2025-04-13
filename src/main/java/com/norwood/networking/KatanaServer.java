@@ -13,7 +13,6 @@ import com.norwood.util.HttpRequestSerializer;
 
 public class KatanaServer {
     public static final int SERVER_PORT = 8082;
-    private static KatanaServer instance;
     private static boolean running = true;
     private ServerSocket socket;
     private KatanaCore core;

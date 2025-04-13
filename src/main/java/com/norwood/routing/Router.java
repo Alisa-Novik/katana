@@ -12,10 +12,7 @@ public class Router implements KatanaBean {
     final List<Route> routes = new ArrayList<>();
 
     public Object route(HttpRequest request) {
-        return findRouteByPath(request).handler().apply(
-                resolveController(),
-                request
-        );
+        return findRouteByPath(request).handler().apply(resolveController(), request);
     }
 
     private UserController resolveController() {

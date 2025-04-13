@@ -5,11 +5,15 @@ import java.net.http.HttpRequest;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import com.norwood.core.KatanaCore;
 import com.norwood.core.Singleton;
 import com.norwood.routing.annotation.Get;
 
 @Singleton
 public class UserController {
+    public void selfRegister() {
+        KatanaCore.registerBean(this);
+    }
 
     @Get(path = "/test1")
     public int route1(HttpRequest request) {
