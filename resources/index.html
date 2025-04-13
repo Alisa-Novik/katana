@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Katana Web Framework - Welcome</title>
+  <style>
+    /* Global Styles */
+    * {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      background: #f0f0f0;
+    }
+    
+    /* Navigation Bar */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 0;
+      z-index: 1000;
+    }
+    nav ul {
+      list-style: none;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li {
+      display: inline-block;
+      margin: 0 20px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover {
+      color: #f8cdda;
+    }
+    
+    /* Section Styles */
+    section {
+      padding: 120px 20px 60px;
+      min-height: 100vh;
+    }
+    .content-wrapper {
+      max-width: 800px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    
+    /* Hero Section */
+    #hero {
+      background: linear-gradient(135deg, #1d2b64, #f8cdda);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      position: relative;
+    }
+    #hero .hero-content {
+      z-index: 2;
+    }
+    
+    /* Overlay to darken the background */
+    #hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 1;
+    }
+    
+    /* Button Styles */
+    .enter-button {
+      display: inline-block;
+      margin: 20px 0;
+      padding: 15px 30px;
+      font-size: 1em;
+      color: #1d2b64;
+      background: #fff;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .enter-button:hover {
+      background: #e2e2e2;
+      transform: scale(1.1);
+    }
+    .button-click {
+      animation: buttonPress 0.3s forwards;
+    }
+    @keyframes buttonPress {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.9); }
+      100% { transform: scale(1); }
+    }
+    
+    /* Code Block Styles */
+    .code-block {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: "Courier New", monospace;
+      font-size: 14px;
+    }
+    
+    /* Footer Styles */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #333;
+      color: #fff;
+    }
+    
+    /* Fade-in animation for sections */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInAnimation 1s forwards;
+    }
+    @keyframes fadeInAnimation {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <ul>
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#code-sample">Code</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  
+  <!-- Hero Section -->
+  <section id="hero">
+    <div class="hero-content fade-in" style="animation-delay: 0.5s;">
+      <h1>Welcome to Katana</h1>
+      <p>Your Gateway to a Highly Scalable Java-based Reflection Framework</p>
+      <button class="enter-button" onclick="scrollToSection('about')">Learn More</button>
+    </div>
+  </section>
+  
+  <!-- About Section -->
+  <section id="about">
+    <div class="content-wrapper fade-in" style="animation-delay: 0.3s;">
+      <h2>About Katana</h2>
+      <p>
+        Katana is a powerful and dynamic web framework built on Java that leverages the capabilities of reflection to adapt and evolve at runtime. With its highly scalable architecture, Katana is designed to serve large-scale applications while providing flexibility, efficiency, and a modern development experience.
+      </p>
+      <p>
+        By harnessing advanced reflection techniques, developers can create, modify, and manage classes dynamically. This ensures that applications remain robust, secure, and easy to maintain even as complexity grows.
+      </p>
+    </div>
+  </section>
+  
+  <!-- Features Section -->
+  <section id="features">
+    <div class="content-wrapper fade-in" style="animation-delay: 0.3s;">
+      <h2>Key Features</h2>
+      <ul>
+        <li>High Scalability to handle enterprise-level applications</li>
+        <li>Dynamic Reflection capabilities for adaptive programming</li>
+        <li>Lightweight and efficient memory management</li>
+        <li>Seamless integration with existing Java applications</li>
+        <li>Robust security measures and error handling</li>
+        <li>Extensive documentation and community support</li>
+      </ul>
+    </div>
+  </section>
+  
+  <!-- Code Sample Section -->
+  <section id="code-sample">
+    <div class="content-wrapper fade-in" style="animation-delay: 0.3s;">
+      <h2>Code Sample</h2>
+      <p>Below is a sample snippet demonstrating how to use Katana's dynamic reflection features:</p>
+      <pre class="code-block">
+/* Example using Katana's reflection utilities */
+ReflectionUtils.registerClass("com.example.MyClass");
+MyClass instance = ReflectionUtils.createInstance("com.example.MyClass");
+instance.execute();
+      </pre>
+    </div>
+  </section>
+  
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="content-wrapper fade-in" style="animation-delay: 0.3s;">
+      <h2>Contact Us</h2>
+      <p>
+        If you're interested in learning more about Katana or have any questions, please don't hesitate to get in touch. We are always eager to connect with developers and tech enthusiasts!
+      </p>
+      <button class="enter-button" onclick="contactUs()">Get In Touch</button>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Katana Web Framework. All rights reserved.</p>
+  </footer>
+  
+  <script>
+    // Function for smooth scrolling to specific sections.
+    function scrollToSection(sectionId) {
+      document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Simulate a contact action.
+    function contactUs() {
+      alert("Thank you for your interest in Katana! Please email us at contact@katanaframework.com");
+    }
+    
+    // Optional: Trigger fade-in animations on scroll using Intersection Observer.
+    document.addEventListener("DOMContentLoaded", function() {
+      const faders = document.querySelectorAll('.fade-in');
+      const options = { threshold: 0.2 };
+      
+      const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.style.animationDelay = '0s';
+          entry.target.classList.add('appear');
+          entry.target.style.opacity = '1';
+          observer.unobserve(entry.target);
+        });
+      }, options);
+      
+      faders.forEach(fader => appearOnScroll.observe(fader));
+    });
+  </script>
+</body>
+</html>

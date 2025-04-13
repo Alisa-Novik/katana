@@ -7,12 +7,13 @@ import java.net.http.HttpRequest;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 import com.norwood.networking.KatanaServer;
 import com.norwood.routing.Route;
 import com.norwood.routing.Router;
 import com.norwood.routing.annotation.Get;
+import com.norwood.userland.UserController;
 
 public class KatanaCore {
     private static final Container container = new KatanaContainer();
@@ -26,6 +27,7 @@ public class KatanaCore {
 
         try {
             registerMainBeans();
+            beanRegistryDefinitions.add(UserController.class);
         } catch (ContainerException e) {
             throw new RuntimeException("Error initializing container exception.");
         }
@@ -63,25 +65,30 @@ public class KatanaCore {
         }
     }
 
-    private BiConsumer<Object, HttpRequest> createHandler(Method method) {
+    private BiFunction<Object, HttpRequest, Object> createHandler(Method method) {
         return (instance, request) -> invokeMethod(method, instance, request);
     }
 
-    private void invokeMethod(Method method, Object instance, Object arg1) {
+    private Object invokeMethod(Method method, Object instance, Object arg1) {
         try {
-            method.invoke(instance, arg1);
+            return method.invoke(instance, arg1);
         } catch (IllegalAccessException | InvocationTargetException e) {
             System.out.println("Error invoking stuff...");
             e.printStackTrace();
-        }
+            throw new RuntimeException("Failed executing method: " + method.getName());
+         }
     }
 
     public static Container getContainer() {
         return container;
     }
 
-    public void handleRequest(HttpRequest req) {
-        System.out.println("Processing user request..." + req.uri().getRawPath());
-        router.route(req);
+    public KatanaResponse handleRequest(HttpRequest req) {
+        try {
+            Object responseValue = router.route(req);
+            return KatanaResponse.some(responseValue);
+        } catch (Exception e) {
+            return KatanaResponse.error("Katana response processing error");
+        }
     }
 }

@@ -12,11 +12,8 @@ public class HttpRequestSerializer
         String method = httpRequest[0];
         String path = httpRequest[1];
 
-        System.out.println("Method: " + method + " Path: " + path);
-
-        String host = "https://localhost:8082";
         return HttpRequest.newBuilder()
-            .uri(URI.create(host + path))
+            .uri(URI.create("https://localhost:8082" + path))
             .GET()
             .build();
     }

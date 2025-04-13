@@ -24,7 +24,7 @@ public class KatanaClient
 
     public void sendRequest(HttpRequest request) {
         try (PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
-            out.println(HttpRequestSerializer.serialize(request));
+            // out.println(HttpRequestSerializer.serialize(request));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -11,8 +11,8 @@ import com.norwood.userland.UserController;
 public class Router implements KatanaBean {
     final List<Route> routes = new ArrayList<>();
 
-    public void route(HttpRequest request) {
-        findRouteByPath(request).handler().accept(
+    public Object route(HttpRequest request) {
+        return findRouteByPath(request).handler().apply(
                 resolveController(),
                 request
         );
@@ -34,6 +34,7 @@ public class Router implements KatanaBean {
     }
 
     public void defineRoutes(List<Route> other) {
+        System.out.println("adding route: " + other.get(0).path());
         routes.addAll(other);
     }
 

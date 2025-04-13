@@ -1,11 +1,14 @@
 package com.norwood.networking;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import com.norwood.core.KatanaCore;
+import com.norwood.core.KatanaResponse;
 import com.norwood.util.HttpRequestSerializer;
 
 public class KatanaServer {
@@ -39,17 +42,35 @@ public class KatanaServer {
 
     private void handleClient(Socket clientSocket) {
         try (
-            BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));) {
+            BufferedReader reader = createSocketReader(clientSocket);
+            PrintWriter writer = createSocketWriter(clientSocket);
+        ) {
             String message;
             while ((message = reader.readLine()) != null) {
-                core.handleRequest(HttpRequestSerializer.unserialize(message));
+
+                KatanaResponse response = core.handleRequest(HttpRequestSerializer.unserialize(message));
+                writer.print("HTTP/1.1 200 OK\r\n");
+                writer.print("Content-Type: text/html; charset=utf-8\r\n");
+                writer.print("Connection: close\r\n");
+                writer.print("\r\n");
+                writer.print(response.value());
+                writer.flush();
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
         } finally {
             // nothing
         }
         System.out.println("Handled client:" + clientSocket.getInetAddress().toString());
+    }
+
+    private PrintWriter createSocketWriter(Socket clientSocket) throws IOException {
+        return new PrintWriter(clientSocket.getOutputStream(), true);
+    }
+
+    private BufferedReader createSocketReader(Socket clientSocket) throws IOException {
+        return new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     }
 
     public static KatanaServer withCore(KatanaCore core) {

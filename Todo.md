@@ -10,6 +10,7 @@ Likely connection pool of http connections.
 Default routes initialization is done
 
 - request processing
+Request/Response framework
 
 - DI framework
 Basic Container and intizitialization already present. Now need to add something like autowiring.

@@ -10,8 +10,8 @@ public class App
         KatanaCore core = new KatanaCore();
         core.boot();
 
-        KatanaClient katanaClient = new KatanaClient();
-        katanaClient.sendRequest(katanaClient.createRequest("/test2"));
+        // KatanaClient katanaClient = new KatanaClient();
+        // katanaClient.sendRequest(katanaClient.createRequest("/test2"));
         // katanaClient.sendRequest(katanaClient.createRequest("/test2"));
     }
 }

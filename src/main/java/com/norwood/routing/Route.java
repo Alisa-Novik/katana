@@ -3,6 +3,7 @@ package com.norwood.routing;
 import java.net.http.HttpRequest;
 import java.util.Locale;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 public class Route {
     public enum HttpMethod {
@@ -43,7 +44,7 @@ public class Route {
         return this.path.equals(path);
     }
 
-    public static Route get(String name, BiConsumer<Object, HttpRequest> handler) {
+    public static Route get(String name, BiFunction<Object, HttpRequest, Object> handler) {
         return Route.create(HttpMethod.GET, name, handler);
     }
 
@@ -53,8 +54,8 @@ public class Route {
     }
 
     @SuppressWarnings("unchecked")
-    public BiConsumer<Object, HttpRequest> handler() {
-        return (BiConsumer<Object, HttpRequest>) handler;
+    public BiFunction<Object, HttpRequest, Object> handler() {
+        return (BiFunction<Object, HttpRequest, Object>) handler;
     }
 
     public String path() {
