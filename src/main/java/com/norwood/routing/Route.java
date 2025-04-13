@@ -52,8 +52,9 @@ public class Route {
         return "Route name '" + method.toString() + " " + path + "'";
     }
 
-    public Object handler() {
-        return handler;
+    @SuppressWarnings("unchecked")
+    public BiConsumer<Object, HttpRequest> handler() {
+        return (BiConsumer<Object, HttpRequest>) handler;
     }
 
     public String path() {

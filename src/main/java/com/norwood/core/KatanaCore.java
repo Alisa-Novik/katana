@@ -4,10 +4,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.http.HttpRequest;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
@@ -15,13 +13,10 @@ import com.norwood.networking.KatanaServer;
 import com.norwood.routing.Route;
 import com.norwood.routing.Router;
 import com.norwood.routing.annotation.Get;
-import com.norwood.userland.BeanRegistry;
-import com.norwood.userland.UserRouter;
 
 public class KatanaCore {
     private static final Container container = new KatanaContainer();
     public static final Set<Class<?>> beanRegistryDefinitions = new HashSet<>();
-    public static final Map<Class<?>, Object> beanRegistry = new HashMap<>();
     private Router router;
 
     public void boot() {
@@ -35,8 +30,6 @@ public class KatanaCore {
             throw new RuntimeException("Error initializing container exception.");
         }
 
-        BeanRegistry.init();
-        beanRegistry.put(UserRouter.class, new UserRouter());
         processAutowiring();
     }
 
@@ -44,7 +37,6 @@ public class KatanaCore {
         Container container = getContainer();
 
         router = new Router();
-        router.defineDefaultRoutes();
         container.set(Router.class, router);
     }
 
@@ -62,15 +54,18 @@ public class KatanaCore {
                             throw new RuntimeException("Route already define with path: " + path);
                         }
 
-                        BiConsumer<Object, HttpRequest> cons = ((instance, request) -> invokeMethod(method, instance,
-                                request));
 
                         router.defineRoutes(List.of(
-                                Route.get(path, cons)));
+                            Route.get(path, createHandler(method))
+                        ));
                     }
                 }
             }
         }
+    }
+
+    private BiConsumer<Object, HttpRequest> createHandler(Method method) {
+        return (instance, request) -> invokeMethod(method, instance, request);
     }
 
     private void invokeMethod(Method method, Object instance, Object arg1) {
