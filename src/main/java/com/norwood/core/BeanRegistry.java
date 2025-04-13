@@ -3,7 +3,7 @@ package com.norwood.core;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.norwood.userland.UserRouter;
+import com.norwood.userland.UserController;
 
 public class BeanRegistry {
 
@@ -35,6 +35,6 @@ public class BeanRegistry {
     }
 
     private static void init() {
-        instance.set(UserRouter.class, new UserRouter());
+        instance.set(UserController.class, new UserController());
     }
 }

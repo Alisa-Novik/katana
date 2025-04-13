@@ -54,7 +54,6 @@ public class KatanaCore {
                             throw new RuntimeException("Route already define with path: " + path);
                         }
 
-
                         router.defineRoutes(List.of(
                             Route.get(path, createHandler(method))
                         ));

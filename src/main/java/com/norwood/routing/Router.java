@@ -6,19 +6,23 @@ import java.util.List;
 
 import com.norwood.core.BeanRegistry;
 import com.norwood.core.KatanaBean;
-import com.norwood.userland.UserRouter;
+import com.norwood.userland.UserController;
 
 public class Router implements KatanaBean {
     final List<Route> routes = new ArrayList<>();
 
     public void route(HttpRequest request) {
-        findByPath(request).handler().accept(
-                registry().get(UserRouter.class),
+        findRouteByPath(request).handler().accept(
+                resolveController(),
                 request
         );
     }
 
-    private Route findByPath(HttpRequest request) {
+    private UserController resolveController() {
+        return registry().get(UserController.class);
+    }
+
+    private Route findRouteByPath(HttpRequest request) {
         String path = request.uri().getRawPath();
         return routes.stream()
                 .filter(r -> r.ofPath(path))
@@ -34,8 +38,6 @@ public class Router implements KatanaBean {
     }
 
     public boolean hasRouteWithPath(String path) {
-        return routes.stream().anyMatch(
-            r -> r.path().equals(path)
-        );
+        return routes.stream().anyMatch(r -> r.ofPath(path));
     }
 }
