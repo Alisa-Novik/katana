@@ -14,15 +14,12 @@ public class KatanaCore {
     private ConfigManager configManager = new FileConfigManager();
 
     public void boot() {
-        System.out.println("Booting Katana");
         (new Thread(() -> KatanaServer.withCore(this))).start();
-        System.out.println("Katana booted. Awaiting connections form clients...");
 
         container.set(Router.class, router);
         container.set(ConfigManager.class, configManager);
         userlandRegistry().registerBeans();
 
-        System.out.println("Processing annotations...");
         annotationProcessor.processAnnotations(container.classDefinitions(), router);
     }
 
