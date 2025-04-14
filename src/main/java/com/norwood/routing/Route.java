@@ -2,7 +2,6 @@ package com.norwood.routing;
 
 import java.net.http.HttpRequest;
 import java.util.Locale;
-import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 public class Route {
@@ -36,7 +35,7 @@ public class Route {
         this.handler = handler;
     }
 
-    public static Route create(HttpMethod method, String path, Object handler) {
+    private static Route create(HttpMethod method, String path, Object handler) {
         return new Route(method, path, handler);
     }
 
@@ -46,6 +45,10 @@ public class Route {
 
     public static Route get(String name, BiFunction<Object, HttpRequest, Object> handler) {
         return Route.create(HttpMethod.GET, name, handler);
+    }
+
+    public static Route post(String name, BiFunction<Object, HttpRequest, Object> handler) {
+        return Route.create(HttpMethod.POST, name, handler);
     }
 
     @Override
@@ -61,4 +64,5 @@ public class Route {
     public String path() {
         return path;
     }
+
 }

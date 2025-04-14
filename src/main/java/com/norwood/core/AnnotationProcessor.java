@@ -10,6 +10,7 @@ import java.util.function.BiFunction;
 import com.norwood.routing.Route;
 import com.norwood.routing.Router;
 import com.norwood.routing.annotation.Get;
+import com.norwood.routing.annotation.Post;
 
 public class AnnotationProcessor {
     public void processAnnotations(List<Class<?>> classDefinitions, Router router) {
@@ -18,7 +19,8 @@ public class AnnotationProcessor {
             for (Method method : userClass.getMethods()) {
                 for (Annotation an : method.getAnnotations()) {
                     switch (an) {
-                        case Get a -> route(a, router, method);
+                        case Get a -> routeGet(a, router, method);
+                        case Post a -> routePost(a, router, method);
                         default -> noop();
                     }
                 }
@@ -26,19 +28,24 @@ public class AnnotationProcessor {
         }
     }
 
-    private void noop() {
-        // nothing
-    }
+    private void noop() {}
 
-    private void route(Get a, Router router, Method method) {
+    private void routePost(Post a, Router router, Method method) {
         String path = a.path();
         if (router.hasRouteWithPath(path)) {
             throw new RuntimeException("Route already define with path: " + path);
         }
 
-        router.defineRoutes(List.of(
-            Route.get(path, createHandler(method))
-        ));
+        router.defineRoute(Route.post(path, createHandler(method)));
+    }
+
+    private void routeGet(Get a, Router router, Method method) {
+        String path = a.path();
+        if (router.hasRouteWithPath(path)) {
+            throw new RuntimeException("Route already define with path: " + path);
+        }
+
+        router.defineRoute(Route.get(path, createHandler(method)));
     }
 
     private BiFunction<Object, HttpRequest, Object> createHandler(Method method) {

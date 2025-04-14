@@ -29,8 +29,11 @@ public class Router {
         return BeanRegistry.instance();
     }
 
+    public void defineRoute(Route route) {
+        routes.add(route);
+    }
+
     public void defineRoutes(List<Route> other) {
-        System.out.println("adding route: " + other.get(0).path());
         routes.addAll(other);
     }
 
