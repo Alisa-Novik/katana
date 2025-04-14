@@ -44,17 +44,23 @@ public class KatanaServer {
             BufferedReader reader = createSocketReader(clientSocket);
             PrintWriter writer = createSocketWriter(clientSocket);
         ) {
-            String message;
-            while ((message = reader.readLine()) != null) {
+            String requestLine = reader.readLine();
 
-                KatanaResponse response = core.handleRequest(HttpRequestSerializer.unserialize(message));
-                writer.print("HTTP/1.1 200 OK\r\n");
-                writer.print("Content-Type: text/html; charset=utf-8\r\n");
-                writer.print("Connection: close\r\n");
-                writer.print("\r\n");
+            String header;
+            while ((header = reader.readLine()) != null && !header.isEmpty()) {
+                System.out.println("(ignoring) Got request header: " + header);
+            }
+
+            if (requestLine != null) {
+                KatanaResponse response = core.handleRequest(
+                    HttpRequestSerializer.unserialize(requestLine)
+                );
+                writeHttpOk(writer);
                 writer.print(response.value());
                 writer.flush();
+
             }
+
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
@@ -62,6 +68,13 @@ public class KatanaServer {
             // nothing
         }
         System.out.println("Handled client:" + clientSocket.getInetAddress().toString());
+    }
+
+    private void writeHttpOk(PrintWriter writer) {
+        writer.print("HTTP/1.1 200 OK\r\n");
+        writer.print("Content-Type: text/html; charset=utf-8\r\n");
+        writer.print("Connection: close\r\n");
+        writer.print("\r\n");
     }
 
     private PrintWriter createSocketWriter(Socket clientSocket) throws IOException {

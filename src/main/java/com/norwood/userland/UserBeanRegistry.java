@@ -17,7 +17,8 @@ public class UserBeanRegistry implements UserlandBeanRegistry {
     @SuppressWarnings("unchecked")
     private <T> List<T> beans() {
         return List.of(
-            (T) new UserController()
+            (T) new UserController(),
+            (T) new UserService()
         );
     }
 }

@@ -6,14 +6,28 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import com.norwood.core.Singleton;
+import com.norwood.core.annotations.Inject;
 import com.norwood.routing.annotation.Get;
+import com.norwood.routing.annotation.Post;
 
 @Singleton
 public class UserController {
-    @Get(path = "/test1")
+    @Inject UserService userService;
+
+    @Post(path = "/test1")
     public int route1(HttpRequest request) {
         System.out.println("[UserController] /test1 executed :" + request.method());
         return 1;
+    }
+
+    @Get(path = "/favicon.ico")
+    public String favicon(HttpRequest request) {
+        return "favicon";
+    }
+
+    @Get(path = "/test3")
+    public String userServiceTest(HttpRequest request) {
+        return userService.userMethod();
     }
 
     @Get(path = "/test2")

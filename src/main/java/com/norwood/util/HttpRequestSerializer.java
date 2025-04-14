@@ -6,14 +6,21 @@ import java.net.http.HttpRequest;
 public class HttpRequestSerializer
 {
     public static HttpRequest unserialize(String req) {
+        System.out.println("Got request: " + req);
         String[] httpRequest = req.split(" ");
 
-        // TODO: multiple methods support
         String method = httpRequest[0];
         String path = httpRequest[1];
+        String uriString;
+
+        if (path.startsWith("http://") || path.startsWith("https://")) {
+            uriString = path;
+        } else {
+            uriString = "https://localhost:8082" + path;
+        }
 
         return HttpRequest.newBuilder()
-            .uri(URI.create("https://localhost:8082" + path))
+            .uri(URI.create(uriString))
             .GET()
             .build();
     }
