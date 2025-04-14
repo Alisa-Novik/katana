@@ -20,11 +20,6 @@ public class UserController {
         return 1;
     }
 
-    @Get(path = "/favicon.ico")
-    public String favicon(HttpRequest request) {
-        return "favicon";
-    }
-
     @Get(path = "/test3")
     public String userServiceTest(HttpRequest request) {
         return userService.userMethod();
