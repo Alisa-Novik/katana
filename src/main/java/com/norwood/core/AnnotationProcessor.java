@@ -22,7 +22,7 @@ public class AnnotationProcessor {
                     System.out.println("Anno: " + an.getClass());
                     switch (an) {
                         case Inject _ -> inject(field);
-                        default -> noop();
+                        default -> System.out.println("Unknown annotation: " + an.toString());
                     }
                 }
             }
@@ -31,7 +31,7 @@ public class AnnotationProcessor {
                     switch (an) {
                         case Get a -> routeGet(a, router, method);
                         case Post a -> routePost(a, router, method);
-                        default -> noop();
+                        default -> System.out.println("Unknown annotation: " + an.toString());
                     }
                 }
             }
@@ -55,8 +55,6 @@ public class AnnotationProcessor {
             throw new RuntimeException("Failed to load user-defined beans.");
         }
     }
-
-    private void noop() {}
 
     private void routePost(Post a, Router router, Method method) {
         String path = a.path();
