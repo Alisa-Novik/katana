@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
 import com.norwood.core.Singleton;
 import com.norwood.core.annotations.Inject;
 import com.norwood.routing.annotation.Get;
