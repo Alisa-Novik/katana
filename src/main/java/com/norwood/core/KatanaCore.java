@@ -24,8 +24,7 @@ public class KatanaCore {
 
     public KatanaResponse handleRequest(HttpRequest req) {
         try {
-            Object responseValue = router.route(req);
-            return KatanaResponse.success(responseValue);
+            return KatanaResponse.success(router.route(req));
         } catch (Exception e) {
             return KatanaResponse.error("Katana response processing error");
         }
