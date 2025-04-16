@@ -12,11 +12,17 @@ import com.norwood.routing.annotation.Post;
 @Singleton
 public class UserController {
     @Inject UserService userService;
+    @Inject Scraper scraper;
 
     @Post(path = "/test1")
     public int route1(HttpRequest request) {
         System.out.println("[UserController] /test1 executed :" + request.method());
         return 1;
+    }
+
+    @Get(path = "/scrape")
+    public void scrape(HttpRequest request) {
+        scraper.scrape();
     }
 
     @Get(path = "/test3")

@@ -18,7 +18,8 @@ public class UserBeanRegistry implements UserlandBeanRegistry {
     private <T> List<T> beans() {
         return List.of(
             (T) new UserController(),
-            (T) new UserService()
+            (T) new UserService(),
+            (T) new Scraper()
         );
     }
 }

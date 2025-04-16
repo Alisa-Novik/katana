@@ -1,9 +1,6 @@
 package com.norwood;
 
-
-import java.net.http.HttpResponse;
-
-import com.norwood.util.KatanaClient;
+import com.norwood.userland.Scraper;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -24,7 +21,8 @@ public class AppTest
 
     public void testApp()
     {
-        // KatanaClient katanaClient = new KatanaClient();
-        // System.out.println(katanaClient.createRequest());
+        Scraper scraper = new Scraper();
+
+        assertEquals(scraper.printStr(), "Test string");
     }
 }
