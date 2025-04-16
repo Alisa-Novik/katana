@@ -45,21 +45,21 @@ public class KatanaServer {
             PrintWriter writer = createSocketWriter(clientSocket);
         ) {
             String requestLine = reader.readLine();
-
             String header;
             while ((header = reader.readLine()) != null && !header.isEmpty()) {
                 System.out.println("(ignoring) Got request header: " + header);
             }
 
-            if (requestLine != null) {
-                KatanaResponse response = core.handleRequest(
-                    HttpRequestSerializer.unserialize(requestLine)
-                );
-                writeHttpOk(writer);
-                writer.print(response.value());
-                writer.flush();
-
+            if (requestLine == null) {
+                return;
             }
+
+            KatanaResponse response = core.handleRequest(
+                HttpRequestSerializer.unserialize(requestLine)
+            );
+            writeHttpOk(writer);
+            writer.print(response.value());
+            writer.flush();
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
