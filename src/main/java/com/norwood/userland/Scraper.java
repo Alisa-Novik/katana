@@ -12,10 +12,10 @@ public class Scraper {
         System.out.println("test");
     }
 
-    public void sendRequest(String uriStr, String method) {
+    public void sendGetRequest(String uriStr) {
         try {
             HttpClient.newHttpClient().send(
-                createRequest(uriStr, method),
+                createRequest(uriStr, "GET"),
                 BodyHandlers.discarding()
             );
         } catch (IOException | InterruptedException e) {
