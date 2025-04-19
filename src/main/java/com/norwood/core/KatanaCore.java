@@ -1,4 +1,4 @@
-p2aackage com.norwood.core;
+package com.norwood.core;
 
 import java.net.http.HttpRequest;
 
@@ -13,9 +13,7 @@ public class KatanaCore {
 
     public void boot() {
         startServer();
-
         loadBeans();
-
         processAnnotations();
     }
 
