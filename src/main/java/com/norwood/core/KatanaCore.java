@@ -12,24 +12,14 @@ public class KatanaCore {
     private ConfigManager configManager = new FileConfigManager();
 
     public void boot() {
-        startServer();
-        loadBeans();
-        processAnnotations();
-    }
+        (new Thread(() -> KatanaServer.withCore(this))).start();
 
-    private void processAnnotations() {
-        annotationProcessor.processAnnotations(container.classDefinitions(), router);
-    }
-
-    private void loadBeans() {
         container.set(Router.class, router);
         container.set(ConfigManager.class, configManager);
 
         RegistryLoader.load();
-    }
 
-    private void startServer() {
-        (new Thread(() -> KatanaServer.withCore(this))).start();
+        annotationProcessor.processAnnotations(container.classDefinitions(), router);
     }
 
     public KatanaResponse handleRequest(HttpRequest req) {
