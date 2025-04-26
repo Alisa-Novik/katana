@@ -12,6 +12,7 @@ public class KatanaCore {
     private ConfigManager configManager = new FileConfigManager();
 
     public void boot() {
+
         (new Thread(() -> KatanaServer.withCore(this))).start();
 
         container.set(Router.class, router);
