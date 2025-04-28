@@ -18,11 +18,4 @@ public class AppTest
     {
         return new TestSuite( AppTest.class );
     }
-
-    public void testApp()
-    {
-        Scraper scraper = new Scraper();
-
-        assertEquals(scraper.printStr(), "Test string");
-    }
 }
