@@ -16,6 +16,9 @@ public class AppTest
 
     public static Test suite()
     {
+        
+        // test 1
+        
         return new TestSuite( AppTest.class );
     }
 }
