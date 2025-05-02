@@ -13,7 +13,7 @@ public class KatanaCore {
 
     public void boot() {
 
-        (new Thread(() -> KatanaServer.withCore(this))).start();
+        getStarted();
 
         container.set(Router.class, router);
         container.set(ConfigManager.class, configManager);
@@ -21,6 +21,10 @@ public class KatanaCore {
         RegistryLoader.load();
 
         annotationProcessor.processAnnotations(container.classDefinitions(), router);
+    }
+
+    private void getStarted() {
+        (new Thread(() -> KatanaServer.withCore(this))).start();
     }
 
     public KatanaResponse handleRequest(HttpRequest req) {
