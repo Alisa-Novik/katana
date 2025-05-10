@@ -43,8 +43,10 @@ public class AnnotationProcessor {
             Class<?> fieldType = field.getType();
             Object owner = container().get(field.getDeclaringClass());
             Object dependency = fieldType.getDeclaredConstructor().newInstance();
+
             field.setAccessible(true);
             field.set(owner, dependency);
+
             System.out.println(owner);
             System.out.println(dependency);
         } catch (InstantiationException  | 
