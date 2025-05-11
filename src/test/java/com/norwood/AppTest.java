@@ -1,7 +1,5 @@
 package com.norwood;
 
-import com.norwood.userland.Scraper;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -16,9 +14,7 @@ public class AppTest
 
     public static Test suite()
     {
-        
-        // test 1
-        
+        assertTrue(true);
         return new TestSuite( AppTest.class );
     }
 }
