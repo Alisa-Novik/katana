@@ -61,7 +61,7 @@ public class AnnotationProcessor {
     private void routePost(Post a, Router router, Method method) {
         String path = a.path();
         if (router.hasRouteWithPath(path)) {
-            throw new RuntimeException("Route already define with path: " + path);
+            throw new RuntimeException("Route already defined with path: " + path);
         }
 
         router.defineRoute(Route.post(path, createHandler(method)));
@@ -70,7 +70,7 @@ public class AnnotationProcessor {
     private void routeGet(Get a, Router router, Method method) {
         String path = a.path();
         if (router.hasRouteWithPath(path)) {
-            throw new RuntimeException("Route already define with path: " + path);
+            throw new RuntimeException("Route already defined with path: " + path);
         }
 
         router.defineRoute(Route.get(path, createHandler(method)));
