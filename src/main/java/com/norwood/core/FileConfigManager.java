@@ -26,7 +26,7 @@ public class FileConfigManager implements ConfigManager {
         try {
             return Files.lines(Path.of(configFile));
         } catch (IOException e) {
-            throw new RuntimeException("No config file found at: " + configMap);
+            throw new RuntimeException("No config file found at: " + configFile);
         }
     }
 
