@@ -12,17 +12,17 @@ public class Router {
 
     public Object route(HttpRequest request) {
         System.out.println(resolveController());
-        return findRouteByPath(request).handler().apply(resolveController(), request);
+        return findRoute(request.method(), request.uri().getRawPath())
+            .handler().apply(resolveController(), request);
     }
 
     private UserController resolveController() {
         return KatanaCore.container.get(UserController.class);
     }
 
-    private Route findRouteByPath(HttpRequest request) {
-        String path = request.uri().getRawPath();
+    private Route findRoute(String method, String path) {
         return routes.stream()
-                .filter(r -> r.ofPath(path))
+                .filter(r -> r.matches(method, path))
                 .findFirst().orElseThrow();
     }
 
@@ -32,6 +32,10 @@ public class Router {
 
     public void defineRoutes(List<Route> other) {
         routes.addAll(other);
+    }
+
+    public boolean hasRoute(String path, Route.HttpMethod method) {
+        return routes.stream().anyMatch(r -> r.ofPath(path) && r.method() == method);
     }
 
     public boolean hasRouteWithPath(String path) {

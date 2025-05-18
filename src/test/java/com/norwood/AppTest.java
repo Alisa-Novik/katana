@@ -28,4 +28,14 @@ public class AppTest
         assertEquals("/hello", req.uri().getPath());
         assertEquals(line, HttpRequestSerializer.serialize(req));
     }
+
+    public void testUnserializeAllMethods() {
+        String[] methods = {"GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"};
+        for (String method : methods) {
+            String line = method + " /test HTTP/1.1";
+            HttpRequest req = HttpRequestSerializer.unserialize(line);
+            assertEquals(method, req.method());
+            assertEquals(line, HttpRequestSerializer.serialize(req));
+        }
+    }
 }

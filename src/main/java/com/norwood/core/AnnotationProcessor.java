@@ -13,6 +13,11 @@ import com.norwood.routing.Route;
 import com.norwood.routing.Router;
 import com.norwood.routing.annotation.Get;
 import com.norwood.routing.annotation.Post;
+import com.norwood.routing.annotation.Put;
+import com.norwood.routing.annotation.Delete;
+import com.norwood.routing.annotation.Patch;
+import com.norwood.routing.annotation.Head;
+import com.norwood.routing.annotation.Options;
 
 public class AnnotationProcessor {
     public void processAnnotations(List<Class<?>> classDefinitions, Router router) {
@@ -31,6 +36,11 @@ public class AnnotationProcessor {
                     switch (an) {
                         case Get a -> routeGet(a, router, method);
                         case Post a -> routePost(a, router, method);
+                        case Put a -> routePut(a, router, method);
+                        case Delete a -> routeDelete(a, router, method);
+                        case Patch a -> routePatch(a, router, method);
+                        case Head a -> routeHead(a, router, method);
+                        case Options a -> routeOptions(a, router, method);
                         default -> System.out.println("Unknown annotation: " + an.toString());
                     }
                 }
@@ -60,7 +70,7 @@ public class AnnotationProcessor {
 
     private void routePost(Post a, Router router, Method method) {
         String path = a.path();
-        if (router.hasRouteWithPath(path)) {
+        if (router.hasRoute(path, Route.HttpMethod.POST)) {
             throw new RuntimeException("Route already defined with path: " + path);
         }
 
@@ -69,11 +79,56 @@ public class AnnotationProcessor {
 
     private void routeGet(Get a, Router router, Method method) {
         String path = a.path();
-        if (router.hasRouteWithPath(path)) {
+        if (router.hasRoute(path, Route.HttpMethod.GET)) {
             throw new RuntimeException("Route already defined with path: " + path);
         }
 
         router.defineRoute(Route.get(path, createHandler(method)));
+    }
+
+    private void routePut(Put a, Router router, Method method) {
+        String path = a.path();
+        if (router.hasRoute(path, Route.HttpMethod.PUT)) {
+            throw new RuntimeException("Route already defined with path: " + path);
+        }
+
+        router.defineRoute(Route.put(path, createHandler(method)));
+    }
+
+    private void routeDelete(Delete a, Router router, Method method) {
+        String path = a.path();
+        if (router.hasRoute(path, Route.HttpMethod.DELETE)) {
+            throw new RuntimeException("Route already defined with path: " + path);
+        }
+
+        router.defineRoute(Route.delete(path, createHandler(method)));
+    }
+
+    private void routePatch(Patch a, Router router, Method method) {
+        String path = a.path();
+        if (router.hasRoute(path, Route.HttpMethod.PATCH)) {
+            throw new RuntimeException("Route already defined with path: " + path);
+        }
+
+        router.defineRoute(Route.patch(path, createHandler(method)));
+    }
+
+    private void routeHead(Head a, Router router, Method method) {
+        String path = a.path();
+        if (router.hasRoute(path, Route.HttpMethod.HEAD)) {
+            throw new RuntimeException("Route already defined with path: " + path);
+        }
+
+        router.defineRoute(Route.head(path, createHandler(method)));
+    }
+
+    private void routeOptions(Options a, Router router, Method method) {
+        String path = a.path();
+        if (router.hasRoute(path, Route.HttpMethod.OPTIONS)) {
+            throw new RuntimeException("Route already defined with path: " + path);
+        }
+
+        router.defineRoute(Route.options(path, createHandler(method)));
     }
 
     private Container container() {

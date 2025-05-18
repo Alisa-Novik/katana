@@ -21,7 +21,7 @@ public class HttpRequestSerializer
 
         return HttpRequest.newBuilder()
             .uri(URI.create(uriString))
-            .GET()
+            .method(method, HttpRequest.BodyPublishers.noBody())
             .build();
     }
 
