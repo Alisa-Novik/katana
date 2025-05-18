@@ -3,6 +3,7 @@ package com.norwood.routing;
 import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.norwood.core.KatanaCore;
 import com.norwood.userland.UserController;
@@ -11,19 +12,22 @@ public class Router {
     final List<Route> routes = new ArrayList<>();
 
     public Object route(HttpRequest request) {
-        System.out.println(resolveController());
-        return findRoute(request.method(), request.uri().getRawPath())
-            .handler().apply(resolveController(), request);
+        Optional<Route> maybeRoute = findRoute(request.method(), request.uri().getRawPath());
+        if (maybeRoute.isPresent()) {
+            System.out.println(resolveController());
+            return maybeRoute.get().handler().apply(resolveController(), request);
+        }
+        return null;
     }
 
     private UserController resolveController() {
         return KatanaCore.container.get(UserController.class);
     }
 
-    private Route findRoute(String method, String path) {
+    private Optional<Route> findRoute(String method, String path) {
         return routes.stream()
                 .filter(r -> r.matches(method, path))
-                .findFirst().orElseThrow();
+                .findFirst();
     }
 
     public void defineRoute(Route route) {

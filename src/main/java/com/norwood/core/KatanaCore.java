@@ -29,7 +29,11 @@ public class KatanaCore {
 
     public KatanaResponse handleRequest(HttpRequest req) {
         try {
-            return KatanaResponse.success(router.route(req));
+            Object result = router.route(req);
+            if (result == null) {
+                return KatanaResponse.error("Not Found");
+            }
+            return KatanaResponse.success(result);
         } catch (Exception e) {
             return KatanaResponse.error("Katana response processing error");
         }
