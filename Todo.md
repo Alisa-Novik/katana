@@ -7,7 +7,7 @@ Parameter-agnostic methods
 
 
 - DI framework
-Autowiring
+Autowiring (done)
 Maybe explicit mapping/configuration
 
 - error handling

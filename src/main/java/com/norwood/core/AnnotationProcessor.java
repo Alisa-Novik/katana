@@ -40,22 +40,59 @@ public class AnnotationProcessor {
 
     private void inject(Field field) {
         try {
-            Class<?> fieldType = field.getType();
             Object owner = container().get(field.getDeclaringClass());
-            Object dependency = fieldType.getDeclaredConstructor().newInstance();
+            Object dependency = resolveDependency(field.getType());
 
             field.setAccessible(true);
             field.set(owner, dependency);
-
-            System.out.println(owner);
-            System.out.println(dependency);
-        } catch (InstantiationException  | 
+        } catch (InstantiationException  |
                 IllegalAccessException | IllegalArgumentException |
                 InvocationTargetException | NoSuchMethodException e)
         {
             e.printStackTrace();
             throw new RuntimeException("Failed to load user-defined beans.");
         }
+    }
+
+    private Object resolveDependency(Class<?> fieldType)
+            throws InstantiationException, IllegalAccessException,
+                   IllegalArgumentException, InvocationTargetException,
+                   NoSuchMethodException {
+        Object existing = container().get(fieldType);
+        if (existing != null && fieldType.isAnnotationPresent(Singleton.class)) {
+            return existing;
+        }
+
+        Object instance = instantiate(fieldType);
+
+        if (fieldType.isAnnotationPresent(Singleton.class)) {
+            container().set(fieldType, instance);
+        }
+
+        return instance;
+    }
+
+    private Object instantiate(Class<?> clazz)
+            throws InstantiationException, IllegalAccessException,
+                   IllegalArgumentException, InvocationTargetException,
+                   NoSuchMethodException {
+        // Prefer zero argument constructor
+        try {
+            var ctor = clazz.getDeclaredConstructor();
+            ctor.setAccessible(true);
+            return ctor.newInstance();
+        } catch (NoSuchMethodException e) {
+            // Fall back to first constructor and resolve parameters
+        }
+
+        var ctor = clazz.getDeclaredConstructors()[0];
+        ctor.setAccessible(true);
+        Class<?>[] paramTypes = ctor.getParameterTypes();
+        Object[] params = new Object[paramTypes.length];
+        for (int i = 0; i < paramTypes.length; i++) {
+            params[i] = resolveDependency(paramTypes[i]);
+        }
+        return ctor.newInstance(params);
     }
 
     private void routePost(Post a, Router router, Method method) {
