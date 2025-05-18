@@ -71,6 +71,23 @@ IntegrationFlow katanaFlow = Katana.flow()
 
 ---
 
+## FHIR Ingestion Service
+
+Katana includes a simple `FhirIngestionService` capable of reading a FHIR Bundle
+from a JSON string or file. The service can be triggered through the new `/fhir-
+ingest` endpoint.
+
+Example usage:
+
+```bash
+curl -X POST "http://localhost:8082/fhir-ingest?file=resources/bundle.json"
+```
+
+When invoked, the service will parse the bundle (using a stubbed parser) and
+return a `PatientRecord` representation.
+
+---
+
 ## Documentation
 
 - [Katana Quick Start Guide (Coming Soon)]()
