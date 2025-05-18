@@ -6,7 +6,6 @@ import java.net.http.HttpRequest;
 public class HttpRequestSerializer
 {
     public static HttpRequest unserialize(String req) {
-        System.out.println("Got request: " + req);
         String[] httpRequest = req.split(" ");
 
         String method = httpRequest[0];

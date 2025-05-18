@@ -16,7 +16,6 @@ public class UserController {
 
     @Post(path = "/test1")
     public int route1(HttpRequest request) {
-        System.out.println("[UserController] /test1 executed :" + request.method());
         return 1;
     }
 
@@ -32,7 +31,6 @@ public class UserController {
 
     @Get(path = "/test2")
     public String route2(HttpRequest request) {
-        System.out.println("[UserController] /test2 executed :" + request.method());
         try {
             return Files.readString(Path.of("resources/index.html"));
         } catch (IOException e) {

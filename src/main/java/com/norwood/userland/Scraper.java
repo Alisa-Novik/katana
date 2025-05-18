@@ -9,7 +9,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 
 public class Scraper {
     public void scrape() {
-        System.out.println("test");
+        // placeholder implementation
     }
 
     public void sendGetRequest(String uriStr) {

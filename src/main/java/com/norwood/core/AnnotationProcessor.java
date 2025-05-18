@@ -19,10 +19,11 @@ public class AnnotationProcessor {
         for (Class<?> userClass : classDefinitions) {
             for (Field field : userClass.getDeclaredFields()) {
                 for (Annotation an : field.getDeclaredAnnotations()) {
-                    System.out.println("Anno: " + an.getClass());
                     switch (an) {
                         case Inject _ -> inject(field);
-                        default -> System.out.println("Unknown annotation: " + an.toString());
+                        default -> {
+                            /* ignored */
+                        }
                     }
                 }
             }
@@ -31,7 +32,9 @@ public class AnnotationProcessor {
                     switch (an) {
                         case Get a -> routeGet(a, router, method);
                         case Post a -> routePost(a, router, method);
-                        default -> System.out.println("Unknown annotation: " + an.toString());
+                        default -> {
+                            /* ignored */
+                        }
                     }
                 }
             }
@@ -46,9 +49,6 @@ public class AnnotationProcessor {
 
             field.setAccessible(true);
             field.set(owner, dependency);
-
-            System.out.println(owner);
-            System.out.println(dependency);
         } catch (InstantiationException  | 
                 IllegalAccessException | IllegalArgumentException |
                 InvocationTargetException | NoSuchMethodException e)
@@ -88,7 +88,6 @@ public class AnnotationProcessor {
         try {
             return method.invoke(instance, arg1);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            System.out.println("Error invoking stuff...");
             e.printStackTrace();
             throw new RuntimeException("Failed executing method: " + method.getName());
          }

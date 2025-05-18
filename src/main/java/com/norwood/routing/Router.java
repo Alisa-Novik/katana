@@ -11,7 +11,6 @@ public class Router {
     final List<Route> routes = new ArrayList<>();
 
     public Object route(HttpRequest request) {
-        System.out.println(resolveController());
         return findRouteByPath(request).handler().apply(resolveController(), request);
     }
 
