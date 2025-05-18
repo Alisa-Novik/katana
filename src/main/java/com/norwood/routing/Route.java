@@ -10,7 +10,9 @@ public class Route {
         POST,
         PUT,
         DELETE,
-        PATCH;
+        PATCH,
+        HEAD,
+        OPTIONS;
 
         public static HttpMethod fromString(String method) {
             if (method == null) {
@@ -43,12 +45,40 @@ public class Route {
         return this.path.equals(path);
     }
 
+    public boolean matches(String method, String path) {
+        return this.method == HttpMethod.fromString(method) && ofPath(path);
+    }
+
+    public HttpMethod method() {
+        return method;
+    }
+
     public static Route get(String name, BiFunction<Object, HttpRequest, Object> handler) {
         return Route.create(HttpMethod.GET, name, handler);
     }
 
     public static Route post(String name, BiFunction<Object, HttpRequest, Object> handler) {
         return Route.create(HttpMethod.POST, name, handler);
+    }
+
+    public static Route put(String name, BiFunction<Object, HttpRequest, Object> handler) {
+        return Route.create(HttpMethod.PUT, name, handler);
+    }
+
+    public static Route delete(String name, BiFunction<Object, HttpRequest, Object> handler) {
+        return Route.create(HttpMethod.DELETE, name, handler);
+    }
+
+    public static Route patch(String name, BiFunction<Object, HttpRequest, Object> handler) {
+        return Route.create(HttpMethod.PATCH, name, handler);
+    }
+
+    public static Route head(String name, BiFunction<Object, HttpRequest, Object> handler) {
+        return Route.create(HttpMethod.HEAD, name, handler);
+    }
+
+    public static Route options(String name, BiFunction<Object, HttpRequest, Object> handler) {
+        return Route.create(HttpMethod.OPTIONS, name, handler);
     }
 
     @Override
