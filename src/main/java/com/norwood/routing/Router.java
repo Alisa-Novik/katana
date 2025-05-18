@@ -3,6 +3,7 @@ package com.norwood.routing;
 import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.norwood.core.KatanaCore;
 import com.norwood.userland.UserController;
@@ -11,18 +12,19 @@ public class Router {
     final List<Route> routes = new ArrayList<>();
 
     public Object route(HttpRequest request) {
-        System.out.println(resolveController());
-        return findRouteByPath(request).handler().apply(resolveController(), request);
+        Route route = findMatchingRoute(request);
+        Map<String, String> params = route.extract(request.uri().getRawPath());
+        return route.invoke(resolveController(), request, params);
     }
 
     private UserController resolveController() {
         return KatanaCore.container.get(UserController.class);
     }
 
-    private Route findRouteByPath(HttpRequest request) {
+    private Route findMatchingRoute(HttpRequest request) {
         String path = request.uri().getRawPath();
         return routes.stream()
-                .filter(r -> r.ofPath(path))
+                .filter(r -> r.matches(path))
                 .findFirst().orElseThrow();
     }
 
