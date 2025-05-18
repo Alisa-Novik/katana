@@ -69,6 +69,21 @@ IntegrationFlow katanaFlow = Katana.flow()
     .build();
 ```
 
+### Routing with Parameters
+
+Routes can include path parameters using curly braces. Declare matching
+parameters in your controller method:
+
+```java
+@Get(path = "/users/{id}")
+public String routeUser(String id, HttpRequest req) {
+    return "user:" + id;
+}
+```
+
+The router will automatically extract the `id` value from requests like
+`/users/123` and pass it to the controller method.
+
 ---
 
 ## FHIR Ingestion Service

@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.http.HttpRequest;
 import java.util.List;
-import java.util.function.BiFunction;
 
 import com.norwood.core.annotations.Inject;
 import com.norwood.routing.Route;
@@ -64,7 +63,7 @@ public class AnnotationProcessor {
             throw new RuntimeException("Route already defined with path: " + path);
         }
 
-        router.defineRoute(Route.post(path, createHandler(method)));
+        router.defineRoute(Route.post(path, method));
     }
 
     private void routeGet(Get a, Router router, Method method) {
@@ -73,26 +72,14 @@ public class AnnotationProcessor {
             throw new RuntimeException("Route already defined with path: " + path);
         }
 
-        router.defineRoute(Route.get(path, createHandler(method)));
+        router.defineRoute(Route.get(path, method));
     }
 
     private Container container() {
         return KatanaCore.container;
     }
 
-    private BiFunction<Object, HttpRequest, Object> createHandler(Method method) {
-        return (instance, request) -> invokeMethod(method, instance, request);
-    }
-
-    private Object invokeMethod(Method method, Object instance, Object arg1) {
-        try {
-            return method.invoke(instance, arg1);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            System.out.println("Error invoking stuff...");
-            e.printStackTrace();
-            throw new RuntimeException("Failed executing method: " + method.getName());
-         }
-    }
+    // parameter-aware handler invocation is performed directly by Route
 
 }
 

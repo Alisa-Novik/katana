@@ -55,4 +55,9 @@ public class UserController {
             throw new RuntimeException("Unable to return index.html");
         }
     }
+
+    @Get(path = "/users/{id}")
+    public String routeUser(String id, HttpRequest request) {
+        return "user:" + id;
+    }
 }
