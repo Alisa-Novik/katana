@@ -7,6 +7,8 @@ import junit.framework.TestSuite;
 import java.net.http.HttpRequest;
 
 import com.norwood.util.HttpRequestSerializer;
+import com.norwood.core.KatanaCore;
+import com.norwood.core.KatanaResponse;
 
 public class AppTest 
     extends TestCase
@@ -37,5 +39,12 @@ public class AppTest
             assertEquals(method, req.method());
             assertEquals(line, HttpRequestSerializer.serialize(req));
         }
+    }
+
+    public void testHandleRequestNotFound() {
+        KatanaCore core = new KatanaCore();
+        HttpRequest req = HttpRequestSerializer.unserialize("GET /missing HTTP/1.1");
+        KatanaResponse res = core.handleRequest(req);
+        assertEquals("Not Found", res.value());
     }
 }
