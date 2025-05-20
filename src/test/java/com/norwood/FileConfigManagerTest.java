@@ -20,6 +20,9 @@ public class FileConfigManagerTest extends TestCase {
         FileConfigManager manager = new FileConfigManager();
         String value = manager.get("beanRegistryClass");
         assertEquals("com.norwood.userland.UserBeanRegistry", value);
+        // verify values containing '=' characters are preserved
+        String complex = manager.get("complexValue");
+        assertEquals("a=b=c", complex);
     }
 
     public void testConfigLoadsFromJar() throws Exception {
@@ -40,6 +43,8 @@ public class FileConfigManagerTest extends TestCase {
             Object instance = clazz.getDeclaredConstructor().newInstance();
             String value = (String) clazz.getMethod("get", String.class).invoke(instance, "beanRegistryClass");
             assertEquals("com.norwood.userland.UserBeanRegistry", value);
+            String complex = (String) clazz.getMethod("get", String.class).invoke(instance, "complexValue");
+            assertEquals("a=b=c", complex);
         }
 
         Files.deleteIfExists(tempJar);

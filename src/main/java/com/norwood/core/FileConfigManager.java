@@ -23,9 +23,10 @@ public class FileConfigManager implements ConfigManager {
             }
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
                 configMap = reader.lines()
+                    .map(line -> line.split("=", 2))
                     .collect(Collectors.toMap(
-                        line -> line.split("=")[0],
-                        line -> line.split("=")[1]
+                        parts -> parts[0],
+                        parts -> parts.length > 1 ? parts[1] : ""
                     ));
             }
         } catch (IOException e) {
