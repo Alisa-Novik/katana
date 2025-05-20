@@ -17,8 +17,13 @@ public class KatanaContainer implements Container {
     @Override
     public <T> void set(Class<T> beanClass, T bean) {
         if (beans.get(beanClass) != null) {
+            // Ignore subsequent registrations for singletons
+            if (beanClass.isAnnotationPresent(Singleton.class)) {
+                return;
+            }
             throw new BeanAlreadyDefinedException("Bean already defined.");
         }
+
         beans.put(beanClass, bean);
     }
 
