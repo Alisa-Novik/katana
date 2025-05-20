@@ -26,7 +26,7 @@ public class HttpRequestSerializer
     }
 
     public static String serialize(HttpRequest req) {
-        return String.format("%s %s HTTP/1.1", req.method(), req.uri().getPath());
+        return String.format("%s %s HTTP/1.1", req.method(), getPath(req.uri()));
     }
     
     public static String getPath(URI uri) {
