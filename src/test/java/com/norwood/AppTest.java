@@ -31,6 +31,14 @@ public class AppTest
         assertEquals(line, HttpRequestSerializer.serialize(req));
     }
 
+    public void testSerializeUnserializeRoundtripWithQuery() {
+        String line = "GET /hello?x=1 HTTP/1.1";
+        HttpRequest req = HttpRequestSerializer.unserialize(line);
+        assertEquals("GET", req.method());
+        assertEquals("/hello?x=1", HttpRequestSerializer.getPath(req.uri()));
+        assertEquals(line, HttpRequestSerializer.serialize(req));
+    }
+
     public void testUnserializeAllMethods() {
         String[] methods = {"GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"};
         for (String method : methods) {
