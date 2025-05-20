@@ -52,7 +52,14 @@ public class AnnotationProcessor {
         try {
             Class<?> fieldType = field.getType();
             Object owner = container().get(field.getDeclaringClass());
-            Object dependency = fieldType.getDeclaredConstructor().newInstance();
+
+            // attempt to reuse an already registered bean if present
+            Object dependency = container().get(fieldType);
+            if (dependency == null) {
+                dependency = fieldType.getDeclaredConstructor().newInstance();
+                // register newly created bean for future injections
+                container().set((Class) fieldType, dependency);
+            }
 
             field.setAccessible(true);
             field.set(owner, dependency);
