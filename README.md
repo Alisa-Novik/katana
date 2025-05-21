@@ -88,6 +88,16 @@ return a `PatientRecord` representation.
 
 ---
 
+## Building & Running
+
+```bash
+mvn package        # compiles the project
+mvn test           # executes unit tests
+java -cp target/katana-1.0-SNAPSHOT.jar com.norwood.App
+```
+
+---
+
 ## Documentation
 
 - [Katana Quick Start Guide (Coming Soon)]()
