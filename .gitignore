@@ -5,3 +5,4 @@ target/*
 .settings
 .git
 
+a.out
