@@ -7,6 +7,7 @@ import com.norwood.core.UserlandBeanRegistry;
 import com.norwood.pipeline.fhir.FhirIngestionService;
 
 public class UserBeanRegistry implements UserlandBeanRegistry {
+    @Override
     @SuppressWarnings("unchecked")
     public <T> void registerBeans() {
         List.of(
